@@ -1,6 +1,7 @@
 {
   "cf_step": {
     "Overview": "/",
-    "Networks": "/networks"
+    "Networks": "/networks",
+    "Step": "/step"
   }
 }

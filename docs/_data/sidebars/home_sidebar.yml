@@ -12,6 +12,9 @@ entries:
     - output: web,pdf
       title: Networks
       url: /networks
+    - output: web,pdf
+      title: Step
+      url: /step
     output: web
     title: cf_step
   output: web
