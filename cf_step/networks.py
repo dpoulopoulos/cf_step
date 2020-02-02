@@ -3,6 +3,7 @@
 __all__ = ['SimpleCF']
 
 # Cell
+import torch
 import torch.nn as nn
 
 from torch import tensor
@@ -19,5 +20,5 @@ class SimpleCF(nn.Module):
     def forward(self, u, i):
         user_embedding = self.user_embeddings(u)
         item_embedding = self.item_embeddings(i)
-        rating = user_embedding @ item_embedding
+        rating = torch.matmul(user_embedding, item_embedding.transpose(0, 1))
         return rating

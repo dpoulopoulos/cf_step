@@ -2,9 +2,11 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"moving_avg": "metrics.ipynb",
+index = {"recall_at_k": "metrics.ipynb",
+         "precision_at_k": "metrics.ipynb",
          "SimpleCF": "networks.ipynb",
-         "recall_at_k": "utils.ipynb"}
+         "Step": "step.ipynb",
+         "moving_avg": "utils.ipynb"}
 
 modules = ["metrics.py",
            "networks.py",

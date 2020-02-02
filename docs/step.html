@@ -26,44 +26,24 @@ summary: "*Incremental Collaborative Filtering* algorithms."
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Step</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">objective</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">objective</span> <span class="o">=</span> <span class="n">objective</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">oprimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">user_embeddings</span><span class="p">():</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">user_embeddings</span>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">item_embeddings</span><span class="p">():</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">item_embeddings</span>
-        
-    <span class="k">def</span> <span class="nf">batch_fit</span><span class="p">(</span><span class="n">data_loader</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">rating</span><span class="p">,</span> <span class="n">preference</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_loader</span><span class="p">):</span>
-            <span class="n">step</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">rating</span><span class="p">,</span> <span class="n">preference</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">rating</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">preference</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">prediction</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-        <span class="n">objective</span> <span class="o">=</span> <span class="n">objective</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">objective</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        
-    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="n">user_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_embeddings</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
-        <span class="n">item_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_embeddings</span><span class="o">.</span><span class="n">weight</span>
-        <span class="n">score</span> <span class="o">=</span> <span class="n">item_embeddings</span> <span class="o">@</span> <span class="n">user_embedding</span>
-        <span class="n">predictions</span> <span class="o">=</span> <span class="n">score</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[</span><span class="o">-</span><span class="n">k</span><span class="p">:]</span>
-        <span class="k">return</span> <span class="n">predictions</span>
-</pre></div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
 
-    </div>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="Step" class="doc_header"><code>class</code> <code>Step</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/step.py#L14" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Step</code>(<strong><code>model</code></strong>, <strong><code>objective</code></strong>, <strong><code>optimizer</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
