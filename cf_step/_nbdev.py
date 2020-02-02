@@ -2,9 +2,11 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"SimpleCF": "networks.ipynb"}
+index = {"moving_avg": "metrics.ipynb",
+         "SimpleCF": "networks.ipynb"}
 
-modules = ["networks.py",
+modules = ["metrics.py",
+           "networks.py",
            "step.py"]
 
 doc_url = "https://dpoulopoulos.github.io/cf_step/"
