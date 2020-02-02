@@ -3,11 +3,13 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"moving_avg": "metrics.ipynb",
-         "SimpleCF": "networks.ipynb"}
+         "SimpleCF": "networks.ipynb",
+         "recall_at_k": "utils.ipynb"}
 
 modules = ["metrics.py",
            "networks.py",
-           "step.py"]
+           "step.py",
+           "utils.py"]
 
 doc_url = "https://dpoulopoulos.github.io/cf_step/"
 

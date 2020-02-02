@@ -3,6 +3,7 @@
     "Overview": "/",
     "Metrics": "/metrics",
     "Networks": "/networks",
-    "Step": "/step"
+    "Step": "/step",
+    "Utils": "/utils"
   }
 }

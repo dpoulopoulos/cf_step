@@ -18,6 +18,9 @@ entries:
     - output: web,pdf
       title: Step
       url: /step
+    - output: web,pdf
+      title: Utils
+      url: /utils
     output: web
     title: cf_step
   output: web
