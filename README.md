@@ -139,8 +139,11 @@ The `Step` model supports only positive feedback. Thus, we will consider a ratin
 
 ```python
 # local
-data_df['preference'] = np.where(data_df['rating'] > 4, 1, 0) # more than 3 -> 1, less than 4 ->0
-data_df_cleaned = data_df.loc[data_df['preference'] == 1]     # keep only ones and discard the others
+# more than 4 -> 1, less than 5 -> 0
+data_df['preference'] = np.where(data_df['rating'] > 4, 1, 0)
+# keep only ones and discard the others
+data_df_cleaned = data_df.loc[data_df['preference'] == 1]
+
 data_df_cleaned.head()
 ```
 
@@ -290,7 +293,7 @@ Let us now use the *batch_fit()* method of the *Step* trainer to bootstrap our m
 model.batch_fit(data_loader)
 ```
 
-    100%|██████████| 89/89 [00:07<00:00, 11.31it/s]
+    100%|██████████| 89/89 [00:07<00:00, 11.86it/s]
 
 
 Then, to simulate streaming we get the remaining data and create a different data set.
@@ -315,21 +318,21 @@ recalls = []
 known_users = []
 
 with tqdm(total=len(stream_data_loader)) as pbar:
-    for idx, (user, item, rtng, preference) in enumerate(stream_data_loader):
+    for idx, (user, item, rtng, pref) in enumerate(stream_data_loader):
         itr = idx + 1
         if user.item() in known_users:
             predictions = model.predict(user, k)
             recall = recall_at_k(predictions.tolist(), item.tolist(), k)
             recalls.append(recall)
-            model.step(user, item)
+            model.step(user, item, rtng, pref)
         else:
-            model.step(user, item)
+            model.step(user, item, rtng, pref)
             
         known_users.append(user.item())
         pbar.update(1)
 ```
 
-    100%|██████████| 181048/181048 [1:20:12<00:00, 37.62it/s]
+    100%|██████████| 181048/181048 [1:07:02<00:00, 45.01it/s]
 
 
 Last but not least, we visualize the results of the recall@10 metric, using a moving average window of 5k elements. 
@@ -348,10 +351,16 @@ plt.plot(avgs)
 
 
 
-    [<matplotlib.lines.Line2D at 0x7f4571516d50>]
+    [<matplotlib.lines.Line2D at 0x7f04041cc210>]
 
 
 
 
 ![png](docs/images/output_27_1.png)
 
+
+Finally, save the model's weights.
+
+```python
+model.save(os.path.join('artefacts', 'positive_step.pt'))
+```
