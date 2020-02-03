@@ -362,5 +362,6 @@ plt.plot(avgs)
 Finally, save the model's weights.
 
 ```python
+# local
 model.save(os.path.join('artefacts', 'positive_step.pt'))
 ```
