@@ -10,9 +10,6 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: CF STEP - Incremental Collaborative Filtering
-      url: /index-Copy1
-    - output: web,pdf
       title: Metrics
       url: /metrics
     - output: web,pdf

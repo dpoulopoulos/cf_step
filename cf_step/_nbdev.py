@@ -5,6 +5,7 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"recall_at_k": "metrics.ipynb",
          "precision_at_k": "metrics.ipynb",
          "SimpleCF": "networks.ipynb",
+         "StepBase": "step.ipynb",
          "Step": "step.ipynb",
          "moving_avg": "utils.ipynb"}
 
