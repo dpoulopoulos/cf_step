@@ -6,7 +6,7 @@ CF STEP is an open-source library, written in python, that enables fast implemen
 
 ## Install
 
-Run `pip install cf_step` to install the library in your environment.
+Run `pip install cf-step` to install the library in your environment.
 
 ## How to use
 
