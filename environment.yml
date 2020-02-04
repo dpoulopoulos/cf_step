@@ -1,0 +1,12 @@
+name: cf_step
+channels:
+- pytorch
+- defaults
+dependencies:
+- jupyter
+- pytorch>=1.3.0
+- matplotlib
+- pandas
+- pip
+- scipy
+- tqdm
