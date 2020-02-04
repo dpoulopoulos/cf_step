@@ -25,25 +25,13 @@ summary: "Algorithm assessment metrics."
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="recall_at_k" class="doc_header"><code>recall_at_k</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/metrics.py#L6" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>recall_at_k</code>(<strong><code>predictions</code></strong>, <strong><code>targets</code></strong>, <strong><code>k</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Recall@k">Recall@k<a class="anchor-link" href="#Recall@k">&#182;</a></h2><p>Recall@k is a standard information retrieval metric. For example, suppose that we computed <em>recall@10</em> equal to 40% in our top-10 recommendation system. This means that 40% of the total number of the relevant items appear in the top-k results.</p>
+<p>More formally we have:</p>
+$$Recall@k = \frac{\text{number of recommended items @k that are relevant}}{\text{total number of relevant items}}$$
 </div>
 </div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -57,13 +45,102 @@ summary: "Algorithm assessment metrics."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="precision_at_k" class="doc_header"><code>precision_at_k</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/metrics.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>precision_at_k</code>(<strong><code>predictions</code></strong>, <strong><code>targets</code></strong>, <strong><code>k</code></strong>)</p>
+<h4 id="recall_at_k" class="doc_header"><code>recall_at_k</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/metrics.py#L9" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>recall_at_k</code>(<strong><code>predictions</code></strong>:<code>List</code>[<code>int</code>], <strong><code>targets</code></strong>:<code>List</code>[<code>int</code>], <strong><code>k</code></strong>:<code>int</code>)</p>
 </blockquote>
+<p>Computes <code>Recall@k</code> from the given predictions and targets sets.</p>
 
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Arguments:</p>
+<ul>
+<li>predictions (list[int]): The list of recommended items</li>
+<li>targets (list[int]): The list of relevant items</li>
+<li>k (int): The number up to where the recall is computed</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">43</span><span class="p">)</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">recall_at_k</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Recall@k should be equal to 2/10 = 0.2&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Precision@k">Precision@k<a class="anchor-link" href="#Precision@k">&#182;</a></h2><p>Precision@k is a standard information retrieval metric. For example, an interpretation of precision@k computed at 80% could be that that 80% of the total number of the recommendations made are relevant to the user.</p>
+<p>More formally we have:</p>
+$$Precision@k = \frac{\text{number of recommended items @k that are relevant}}{\text{number of recommended items @k}}$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="precision_at_k" class="doc_header"><code>precision_at_k</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/metrics.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>precision_at_k</code>(<strong><code>predictions</code></strong>:<code>List</code>[<code>int</code>], <strong><code>targets</code></strong>:<code>List</code>[<code>int</code>], <strong><code>k</code></strong>:<code>int</code>)</p>
+</blockquote>
+<p>Computes <code>Precision@k</code> from the given predictions and targets sets.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Arguments:</p>
+<ul>
+<li>predictions (list[int]): The list of recommended items</li>
+<li>targets (list[int]): The list of relevant items</li>
+<li>k (int): The number up to where the recall is computed</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">43</span><span class="p">)</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">precision_at_k</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Recall@k should be equal to 2/5 = 0.4&#39;</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
