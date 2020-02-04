@@ -10,14 +10,15 @@ from torch import tensor
 
 # Cell
 class SimpleCF(nn.Module):
-    def __init__(self, n_users, n_items, factors):
+    def __init__(self, n_users: int, n_items: int, factors: int = 16,
+                 init: torch.nn.init = torch.nn.init.normal_, **kwargs):
         super().__init__()
         self.user_embeddings = nn.Embedding(n_users, factors)
-        self.user_embeddings.weight.data.normal_(0., .1)
+        init(self.user_embeddings.weight.data, **kwargs)
         self.item_embeddings = nn.Embedding(n_items, factors)
-        self.item_embeddings.weight.data.normal_(0., .1)
+        init(self.item_embeddings.weight.data, **kwargs)
 
-    def forward(self, u, i):
+    def forward(self, u: torch.tensor, i: torch.tensor) -> torch.tensor:
         user_embedding = self.user_embeddings(u)
         item_embedding = self.item_embeddings(i)
         rating = torch.matmul(user_embedding, item_embedding.transpose(0, 1))

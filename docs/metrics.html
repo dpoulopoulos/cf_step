@@ -45,7 +45,7 @@ $$Recall@k = \frac{\text{number of recommended items @k that are relevant}}{\tex
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="recall_at_k" class="doc_header"><code>recall_at_k</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/metrics.py#L9" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>recall_at_k</code>(<strong><code>predictions</code></strong>:<code>List</code>[<code>int</code>], <strong><code>targets</code></strong>:<code>List</code>[<code>int</code>], <strong><code>k</code></strong>:<code>int</code>)</p>
+<h4 id="recall_at_k" class="doc_header"><code>recall_at_k</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/metrics.py#L9" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>recall_at_k</code>(<strong><code>predictions</code></strong>:<code>List</code>[<code>int</code>], <strong><code>targets</code></strong>:<code>List</code>[<code>int</code>], <strong><code>k</code></strong>:<code>int</code>=<em><code>10</code></em>)</p>
 </blockquote>
 <p>Computes <code>Recall@k</code> from the given predictions and targets sets.</p>
 
@@ -63,7 +63,7 @@ $$Recall@k = \frac{\text{number of recommended items @k that are relevant}}{\tex
 <ul>
 <li>predictions (list[int]): The list of recommended items</li>
 <li>targets (list[int]): The list of relevant items</li>
-<li>k (int): The number up to where the recall is computed</li>
+<li>k (int): The number up to where the recall is computed - default: 10</li>
 </ul>
 
 </div>
@@ -105,7 +105,7 @@ $$Precision@k = \frac{\text{number of recommended items @k that are relevant}}{\
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="precision_at_k" class="doc_header"><code>precision_at_k</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/metrics.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>precision_at_k</code>(<strong><code>predictions</code></strong>:<code>List</code>[<code>int</code>], <strong><code>targets</code></strong>:<code>List</code>[<code>int</code>], <strong><code>k</code></strong>:<code>int</code>)</p>
+<h4 id="precision_at_k" class="doc_header"><code>precision_at_k</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/metrics.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>precision_at_k</code>(<strong><code>predictions</code></strong>:<code>List</code>[<code>int</code>], <strong><code>targets</code></strong>:<code>List</code>[<code>int</code>], <strong><code>k</code></strong>:<code>int</code>=<em><code>10</code></em>)</p>
 </blockquote>
 <p>Computes <code>Precision@k</code> from the given predictions and targets sets.</p>
 
@@ -123,7 +123,7 @@ $$Precision@k = \frac{\text{number of recommended items @k that are relevant}}{\
 <ul>
 <li>predictions (list[int]): The list of recommended items</li>
 <li>targets (list[int]): The list of relevant items</li>
-<li>k (int): The number up to where the recall is computed</li>
+<li>k (int): The number up to where the recall is computed - default: 10</li>
 </ul>
 
 </div>

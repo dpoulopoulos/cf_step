@@ -6,7 +6,7 @@ __all__ = ['recall_at_k', 'precision_at_k']
 from typing import List
 
 # Cell
-def recall_at_k(predictions: List[int], targets: List[int], k: int):
+def recall_at_k(predictions: List[int], targets: List[int], k: int = 10) -> float:
     """Computes `Recall@k` from the given predictions and targets sets."""
     predictions_set = set(predictions[:k])
     targets_set = set(targets)
@@ -14,7 +14,7 @@ def recall_at_k(predictions: List[int], targets: List[int], k: int):
     return result
 
 # Cell
-def precision_at_k(predictions: List[int], targets: List[int], k: int):
+def precision_at_k(predictions: List[int], targets: List[int], k: int = 10) -> float:
     """Computes `Precision@k` from the given predictions and targets sets."""
     predictions_set = set(predictions[:k])
     targets_set = set(targets)

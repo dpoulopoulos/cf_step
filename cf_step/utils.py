@@ -3,10 +3,13 @@
 __all__ = ['moving_avg']
 
 # Cell
-def moving_avg(w, results):
-    cumsum, moving_avgs = [0], []
+from typing import List
 
-    for i, x in enumerate(results, 1):
+# Cell
+def moving_avg(inputs: list, w: int = 10) -> List[float]:
+    """Computes the moving average of a list over a sliding window."""
+    cumsum, moving_avgs = [0], []
+    for i, x in enumerate(inputs, 1):
         cumsum.append(cumsum[i-1] + x)
         if i >= w:
             moving_avg = (cumsum[i] - cumsum[i-w]) / w

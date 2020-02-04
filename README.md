@@ -238,7 +238,7 @@ Following, let us initialize out model with a database connection. For everythin
 
 ```python
 # local
-net = SimpleCF(n_users, n_movies, factors=1024)
+net = SimpleCF(n_users, n_movies, factors=1024, mean=0., std=.1)
 objective = lambda pred, targ: targ - pred
 optimizer = SGD(net.parameters(), lr=0.06)
 
@@ -339,7 +339,7 @@ Last but not least, we visualize the results of the recall@10 metric, using a mo
 
 ```python
 # local
-avgs = moving_avg(5000, recalls)
+avgs = moving_avg(recalls, 5000)
 
 plt.title('Recall@10')
 plt.xlabel('Iterations')
