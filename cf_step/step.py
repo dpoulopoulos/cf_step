@@ -89,7 +89,7 @@ class Step(StepBase):
         self.optimizer.step()
         self.optimizer.zero_grad()
 
-    def predict(self, user: torch.tensor, k:int = 10):
+    def predict(self, user: torch.tensor, k:int = 10) -> torch.tensor:
         """Recommends the top-k items to a specific user."""
         self.model.eval()
         user_embedding = self.user_embeddings(user)
