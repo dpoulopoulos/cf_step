@@ -18,7 +18,8 @@ summary: "Common neural network architectures for *Collaborative Filtering*."
 -->
 
 <div class="container" id="notebook-container">
-    
+    {% raw %}
+        
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -58,6 +59,27 @@ summary: "Common neural network architectures for *Collaborative Filtering*."
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="SimpleCF" class="doc_header"><code>class</code> <code>SimpleCF</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/networks.py#L12" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SimpleCF</code>(<strong><code>n_users</code></strong>:<code>int</code>, <strong><code>n_items</code></strong>:<code>int</code>, <strong><code>factors</code></strong>:<code>int</code>=<em><code>16</code></em>, <strong><code>init</code></strong>:<code>torch.nn.init</code>=<em><code>'normal_'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::</p>
+
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+
+</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 
@@ -113,6 +135,7 @@ summary: "Common neural network architectures for *Collaborative Filtering*."
 </div>
 
 </div>
+    {% endraw %}
 </div>
  
 

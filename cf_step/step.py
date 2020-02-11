@@ -46,11 +46,13 @@ class StepBase:
 class Step(StepBase):
     """Incremental and batch training of recommender systems."""
     def __init__(self, model: torch.nn.Module, objective: Callable,
-                 optimizer: Callable, conf_func: Callable = lambda x: 1):
-        self.model = model
+                 optimizer: Callable, conf_func: Callable = lambda x: 1,
+                 device: str = 'cpu'):
+        self.model = model.to(device)
         self.objective = objective
         self.optimizer = optimizer
         self.conf_func = conf_func
+        self.device = device
 
         # check if the user has provided user and item embeddings
         assert self.model.user_embeddings, 'User embedding matrix could not be found.'
@@ -70,6 +72,11 @@ class Step(StepBase):
         for epoch in range(epochs):
             with tqdm(total=len(data_loader)) as pbar:
                 for _, (users, items, ratings, preferences) in enumerate(data_loader):
+                    users.to(self.device)
+                    items.to(self.device)
+                    ratings.to(self.device)
+                    preferences.to(self.device)
+
                     predictions = self.model(users, items)
                     conf = self.conf_func(ratings)
                     loss = (conf * self.objective(predictions, preferences)).mean()
@@ -82,6 +89,12 @@ class Step(StepBase):
              rating: torch.tensor = None, preference: torch.tensor = None):
         """Trains the model incrementally."""
         self.model.train()
+
+        user.to(self.device)
+        item.to(self.device)
+        rating.to(self.device)
+        preference.to(self.device)
+
         prediction = self.model(user, item)
         conf = self.conf_func(rating)
         loss = conf * self.objective(prediction, preference)
@@ -92,11 +105,12 @@ class Step(StepBase):
     def predict(self, user: torch.tensor, k:int = 10) -> torch.tensor:
         """Recommends the top-k items to a specific user."""
         self.model.eval()
+        user.to(self.device)
         user_embedding = self.user_embeddings(user)
         item_embeddings = self.item_embeddings.weight
         score = item_embeddings @ user_embedding.transpose(0, 1)
         predictions = score.squeeze().argsort()[-k:]
-        return predictions
+        return predictions.cpu()
 
     def save(self, path: str):
         """Saves the model parameters to the given path."""

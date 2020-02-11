@@ -241,8 +241,9 @@ Following, let us initialize out model with a database connection. For everythin
 net = SimpleCF(n_users, n_movies, factors=1024, mean=0., std=.1)
 objective = lambda pred, targ: targ - pred
 optimizer = SGD(net.parameters(), lr=0.06)
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-model = Step(net, objective, optimizer)
+model = Step(net, objective, optimizer, device=device)
 ```
 
 Finally, let us get 1% of the data to fit the model for bootstrapping and create the Pytorch Dataset that we will use.
@@ -293,7 +294,7 @@ Let us now use the *batch_fit()* method of the *Step* trainer to bootstrap our m
 model.batch_fit(data_loader)
 ```
 
-    100%|██████████| 89/89 [00:07<00:00, 11.86it/s]
+    100%|██████████| 89/89 [00:04<00:00, 20.40it/s]
 
 
 Then, to simulate streaming we get the remaining data and create a different data set.
@@ -332,8 +333,7 @@ with tqdm(total=len(stream_data_loader)) as pbar:
         pbar.update(1)
 ```
 
-    100%|██████████| 181048/181048 [1:07:02<00:00, 45.01it/s]
-
+      5%|▌         | 9699/181048 [02:50<51:01, 55.97it/s]  
 
 Last but not least, we visualize the results of the recall@10 metric, using a moving average window of 5k elements. 
 
@@ -347,17 +347,6 @@ plt.ylabel('Metric')
 plt.ylim(0., .1)
 plt.plot(avgs)
 ```
-
-
-
-
-    [<matplotlib.lines.Line2D at 0x7f04041cc210>]
-
-
-
-
-![png](docs/images/output_27_1.png)
-
 
 Finally, save the model's weights.
 
