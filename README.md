@@ -333,7 +333,7 @@ with tqdm(total=len(stream_data_loader)) as pbar:
         pbar.update(1)
 ```
 
-      5%|▌         | 9699/181048 [02:50<51:01, 55.97it/s]  
+     31%|███▏      | 56622/181048 [16:32<35:22, 58.62it/s]  
 
 Last but not least, we visualize the results of the recall@10 metric, using a moving average window of 5k elements. 
 

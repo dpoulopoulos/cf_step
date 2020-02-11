@@ -72,10 +72,10 @@ class Step(StepBase):
         for epoch in range(epochs):
             with tqdm(total=len(data_loader)) as pbar:
                 for _, (users, items, ratings, preferences) in enumerate(data_loader):
-                    users.to(self.device)
-                    items.to(self.device)
-                    ratings.to(self.device)
-                    preferences.to(self.device)
+                    users = users.to(self.device)
+                    items = items.to(self.device)
+                    ratings = ratings.to(self.device)
+                    preferences = preferences.to(self.device)
 
                     predictions = self.model(users, items)
                     conf = self.conf_func(ratings)
@@ -90,10 +90,10 @@ class Step(StepBase):
         """Trains the model incrementally."""
         self.model.train()
 
-        user.to(self.device)
-        item.to(self.device)
-        rating.to(self.device)
-        preference.to(self.device)
+        user = user.to(self.device)
+        item = item.to(self.device)
+        rating = rating.to(self.device)
+        preference = preference.to(self.device)
 
         prediction = self.model(user, item)
         conf = self.conf_func(rating)
@@ -105,7 +105,7 @@ class Step(StepBase):
     def predict(self, user: torch.tensor, k:int = 10) -> torch.tensor:
         """Recommends the top-k items to a specific user."""
         self.model.eval()
-        user.to(self.device)
+        user = user.to(self.device)
         user_embedding = self.user_embeddings(user)
         item_embeddings = self.item_embeddings.weight
         score = item_embeddings @ user_embedding.transpose(0, 1)
