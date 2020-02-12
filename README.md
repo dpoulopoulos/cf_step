@@ -333,7 +333,8 @@ with tqdm(total=len(stream_data_loader)) as pbar:
         pbar.update(1)
 ```
 
-     31%|███▏      | 56622/181048 [16:32<35:22, 58.62it/s]  
+    100%|██████████| 181048/181048 [58:28<00:00, 51.60it/s] 
+
 
 Last but not least, we visualize the results of the recall@10 metric, using a moving average window of 5k elements. 
 
@@ -348,9 +349,72 @@ plt.ylim(0., .1)
 plt.plot(avgs)
 ```
 
+
+
+
+    [<matplotlib.lines.Line2D at 0x7eff0bc4e460>]
+
+
+
+
+![png](docs/images/output_27_1.png)
+
+
 Finally, save the model's weights.
+
+```python
+!ls
+```
+
+    cf_step  index.ipynb  metrics.ipynb  networks.ipynb  step.ipynb  utils.ipynb
+
 
 ```python
 # local
 model.save(os.path.join('artefacts', 'positive_step.pt'))
 ```
+
+
+    ---------------------------------------------------------------------------
+
+    FileNotFoundError                         Traceback (most recent call last)
+
+    <ipython-input-17-f0563e457889> in <module>
+          1 # local
+    ----> 2 model.save(os.path.join('artefacts', 'positive_step.pt'))
+    
+
+    ~/Projects/cf_step/nbs/cf_step/step.py in save(self, path)
+        115     def save(self, path: str):
+        116         """Saves the model parameters to the given path."""
+    --> 117         torch.save(self.model.state_dict(), path)
+        118 
+        119     def load(self, path: str):
+
+
+    ~/anaconda3/envs/cf_step/lib/python3.8/site-packages/torch/serialization.py in save(obj, f, pickle_module, pickle_protocol, _use_new_zipfile_serialization)
+        325             return
+        326 
+    --> 327     with _open_file_like(f, 'wb') as opened_file:
+        328         _legacy_save(obj, opened_file, pickle_module, pickle_protocol)
+        329 
+
+
+    ~/anaconda3/envs/cf_step/lib/python3.8/site-packages/torch/serialization.py in _open_file_like(name_or_buffer, mode)
+        210 def _open_file_like(name_or_buffer, mode):
+        211     if _is_path(name_or_buffer):
+    --> 212         return _open_file(name_or_buffer, mode)
+        213     else:
+        214         if 'w' in mode:
+
+
+    ~/anaconda3/envs/cf_step/lib/python3.8/site-packages/torch/serialization.py in __init__(self, name, mode)
+        191 class _open_file(_opener):
+        192     def __init__(self, name, mode):
+    --> 193         super(_open_file, self).__init__(open(name, mode))
+        194 
+        195     def __exit__(self, *args):
+
+
+    FileNotFoundError: [Errno 2] No such file or directory: 'artefacts/positive_step.pt'
+
