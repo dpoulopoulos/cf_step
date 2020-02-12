@@ -22,8 +22,10 @@ class SimpleCF(nn.Module):
 
     def forward(self, u: torch.tensor, i: torch.tensor) -> torch.tensor:
         user_embedding = self.user_embeddings(u)
+        user_embedding = user_embedding[:, None, :]
         item_embedding = self.item_embeddings(i)
-        rating = torch.matmul(user_embedding, item_embedding.transpose(0, 1))
+        item_embedding = item_embedding[:, None, :]
+        rating = torch.matmul(user_embedding, item_embedding.transpose(1, 2))
         return rating
 
     def _create_embedding(self, n_items, factors,
