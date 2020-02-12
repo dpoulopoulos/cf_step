@@ -125,9 +125,6 @@ n_movies = ratings_df['movie_code'].max() + 1
 print(f'There are {n_users} unique users and {n_movies} unique movies in the movielens dataset.')
 ```
 
-    There are 6040 unique users and 3706 unique movies in the movielens dataset.
-
-
 We will sort the data by Timestamp so as to simulate streaming events.
 
 ```python
@@ -146,93 +143,6 @@ data_df_cleaned = data_df.loc[data_df['preference'] == 1]
 
 data_df_cleaned.head()
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>user_id</th>
-      <th>movie_id</th>
-      <th>rating</th>
-      <th>timestamp</th>
-      <th>user_code</th>
-      <th>movie_code</th>
-      <th>preference</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>999873</th>
-      <td>6040</td>
-      <td>593</td>
-      <td>5</td>
-      <td>956703954</td>
-      <td>6039</td>
-      <td>579</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1000192</th>
-      <td>6040</td>
-      <td>2019</td>
-      <td>5</td>
-      <td>956703977</td>
-      <td>6039</td>
-      <td>1839</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>999920</th>
-      <td>6040</td>
-      <td>213</td>
-      <td>5</td>
-      <td>956704056</td>
-      <td>6039</td>
-      <td>207</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>999967</th>
-      <td>6040</td>
-      <td>3111</td>
-      <td>5</td>
-      <td>956704056</td>
-      <td>6039</td>
-      <td>2895</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>999971</th>
-      <td>6040</td>
-      <td>2503</td>
-      <td>5</td>
-      <td>956704191</td>
-      <td>6039</td>
-      <td>2309</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 Following, let us initialize out model with a database connection. For everything else (e.g. `learning rate`, `optimizer`, `loss function` etc.) we will use the defaults.
 
@@ -294,9 +204,6 @@ Let us now use the *batch_fit()* method of the *Step* trainer to bootstrap our m
 model.batch_fit(data_loader)
 ```
 
-    100%|██████████| 89/89 [00:04<00:00, 20.40it/s]
-
-
 Then, to simulate streaming we get the remaining data and create a different data set.
 
 ```python
@@ -333,9 +240,6 @@ with tqdm(total=len(stream_data_loader)) as pbar:
         pbar.update(1)
 ```
 
-    100%|██████████| 181048/181048 [58:28<00:00, 51.60it/s] 
-
-
 Last but not least, we visualize the results of the recall@10 metric, using a moving average window of 5k elements. 
 
 ```python
@@ -349,72 +253,9 @@ plt.ylim(0., .1)
 plt.plot(avgs)
 ```
 
-
-
-
-    [<matplotlib.lines.Line2D at 0x7eff0bc4e460>]
-
-
-
-
-![png](docs/images/output_27_1.png)
-
-
 Finally, save the model's weights.
-
-```python
-!ls
-```
-
-    cf_step  index.ipynb  metrics.ipynb  networks.ipynb  step.ipynb  utils.ipynb
-
 
 ```python
 # local
 model.save(os.path.join('artefacts', 'positive_step.pt'))
 ```
-
-
-    ---------------------------------------------------------------------------
-
-    FileNotFoundError                         Traceback (most recent call last)
-
-    <ipython-input-17-f0563e457889> in <module>
-          1 # local
-    ----> 2 model.save(os.path.join('artefacts', 'positive_step.pt'))
-    
-
-    ~/Projects/cf_step/nbs/cf_step/step.py in save(self, path)
-        115     def save(self, path: str):
-        116         """Saves the model parameters to the given path."""
-    --> 117         torch.save(self.model.state_dict(), path)
-        118 
-        119     def load(self, path: str):
-
-
-    ~/anaconda3/envs/cf_step/lib/python3.8/site-packages/torch/serialization.py in save(obj, f, pickle_module, pickle_protocol, _use_new_zipfile_serialization)
-        325             return
-        326 
-    --> 327     with _open_file_like(f, 'wb') as opened_file:
-        328         _legacy_save(obj, opened_file, pickle_module, pickle_protocol)
-        329 
-
-
-    ~/anaconda3/envs/cf_step/lib/python3.8/site-packages/torch/serialization.py in _open_file_like(name_or_buffer, mode)
-        210 def _open_file_like(name_or_buffer, mode):
-        211     if _is_path(name_or_buffer):
-    --> 212         return _open_file(name_or_buffer, mode)
-        213     else:
-        214         if 'w' in mode:
-
-
-    ~/anaconda3/envs/cf_step/lib/python3.8/site-packages/torch/serialization.py in __init__(self, name, mode)
-        191 class _open_file(_opener):
-        192     def __init__(self, name, mode):
-    --> 193         super(_open_file, self).__init__(open(name, mode))
-        194 
-        195     def __exit__(self, *args):
-
-
-    FileNotFoundError: [Errno 2] No such file or directory: 'artefacts/positive_step.pt'
-

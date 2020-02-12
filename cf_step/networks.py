@@ -11,11 +11,13 @@ from torch import tensor
 # Cell
 class SimpleCF(nn.Module):
     def __init__(self, n_users: int, n_items: int, factors: int = 16,
+                 user_embeddings: torch.tensor = None, freeze_users: bool = False,
+                 item_embeddings: torch.tensor = None, freeze_items: bool = False,
                  init: torch.nn.init = torch.nn.init.normal_, **kwargs):
         super().__init__()
-        self.user_embeddings = nn.Embedding(n_users, factors)
+        self.user_embeddings = self._create_embedding(n_users, factors, user_embeddings, freeze_users)
         init(self.user_embeddings.weight.data, **kwargs)
-        self.item_embeddings = nn.Embedding(n_items, factors)
+        self.item_embeddings = self._create_embedding(n_items, factors, item_embeddings, freeze_items)
         init(self.item_embeddings.weight.data, **kwargs)
 
     def forward(self, u: torch.tensor, i: torch.tensor) -> torch.tensor:
@@ -23,3 +25,14 @@ class SimpleCF(nn.Module):
         item_embedding = self.item_embeddings(i)
         rating = torch.matmul(user_embedding, item_embedding.transpose(0, 1))
         return rating
+
+    def _create_embedding(self, n_items, factors,
+                          weights: torch.tensor = None, freeze: bool = False):
+        embedding = nn.Embedding(n_items, factors)
+
+        if weights is not None:
+            embedding.load_state_dict({'weight': weights})
+        if freeze:
+            embedding.weight.requires_grad = False
+
+        return embedding
