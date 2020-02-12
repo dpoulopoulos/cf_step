@@ -125,6 +125,9 @@ n_movies = ratings_df['movie_code'].max() + 1
 print(f'There are {n_users} unique users and {n_movies} unique movies in the movielens dataset.')
 ```
 
+    There are 6040 unique users and 3706 unique movies in the movielens dataset.
+
+
 We will sort the data by Timestamp so as to simulate streaming events.
 
 ```python
@@ -143,6 +146,93 @@ data_df_cleaned = data_df.loc[data_df['preference'] == 1]
 
 data_df_cleaned.head()
 ```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user_id</th>
+      <th>movie_id</th>
+      <th>rating</th>
+      <th>timestamp</th>
+      <th>user_code</th>
+      <th>movie_code</th>
+      <th>preference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>999873</th>
+      <td>6040</td>
+      <td>593</td>
+      <td>5</td>
+      <td>956703954</td>
+      <td>6039</td>
+      <td>579</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1000192</th>
+      <td>6040</td>
+      <td>2019</td>
+      <td>5</td>
+      <td>956703977</td>
+      <td>6039</td>
+      <td>1839</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>999920</th>
+      <td>6040</td>
+      <td>213</td>
+      <td>5</td>
+      <td>956704056</td>
+      <td>6039</td>
+      <td>207</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>999967</th>
+      <td>6040</td>
+      <td>3111</td>
+      <td>5</td>
+      <td>956704056</td>
+      <td>6039</td>
+      <td>2895</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>999971</th>
+      <td>6040</td>
+      <td>2503</td>
+      <td>5</td>
+      <td>956704191</td>
+      <td>6039</td>
+      <td>2309</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
 
 Following, let us initialize out model with a database connection. For everything else (e.g. `learning rate`, `optimizer`, `loss function` etc.) we will use the defaults.
 
@@ -197,12 +287,29 @@ data_set = MovieLens(bootstrapping_data)
 data_loader = DataLoader(data_set, batch_size=512, shuffle=False)
 ```
 
+```python
+u, i , _, _ = next(iter(data_loader))
+res = net(u.to(device), i.to(device))
+
+res.shape
+```
+
+
+
+
+    torch.Size([512, 1, 1])
+
+
+
 Let us now use the *batch_fit()* method of the *Step* trainer to bootstrap our model. 
 
 ```python
 # local
 model.batch_fit(data_loader)
 ```
+
+    100%|██████████| 89/89 [00:05<00:00, 16.99it/s]
+
 
 Then, to simulate streaming we get the remaining data and create a different data set.
 
@@ -240,6 +347,9 @@ with tqdm(total=len(stream_data_loader)) as pbar:
         pbar.update(1)
 ```
 
+    100%|██████████| 181048/181048 [1:00:25<00:00, 49.94it/s]
+
+
 Last but not least, we visualize the results of the recall@10 metric, using a moving average window of 5k elements. 
 
 ```python
@@ -252,6 +362,17 @@ plt.ylabel('Metric')
 plt.ylim(0., .1)
 plt.plot(avgs)
 ```
+
+
+
+
+    [<matplotlib.lines.Line2D at 0x7f811f94a730>]
+
+
+
+
+![png](docs/images/output_28_1.png)
+
 
 Finally, save the model's weights.
 
