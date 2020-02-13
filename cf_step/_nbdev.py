@@ -2,14 +2,19 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"recall_at_k": "metrics.ipynb",
+index = {"FlatLoss": "losses.ipynb",
+         "FlatCrossEntropyLoss": "losses.ipynb",
+         "FlatBCELoss": "losses.ipynb",
+         "FlatMSELoss": "losses.ipynb",
+         "recall_at_k": "metrics.ipynb",
          "precision_at_k": "metrics.ipynb",
          "SimpleCF": "networks.ipynb",
          "StepBase": "step.ipynb",
          "Step": "step.ipynb",
          "moving_avg": "utils.ipynb"}
 
-modules = ["metrics.py",
+modules = ["losses.py",
+           "metrics.py",
            "networks.py",
            "step.py",
            "utils.py"]

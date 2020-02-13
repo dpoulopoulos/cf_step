@@ -46,7 +46,7 @@ class StepBase:
 class Step(StepBase):
     """Incremental and batch training of recommender systems."""
     def __init__(self, model: torch.nn.Module, objective: Callable,
-                 optimizer: Callable, conf_func: Callable = lambda x: 1,
+                 optimizer: Callable, conf_func: Callable = lambda x: torch.tensor(1),
                  device: str = 'cpu'):
         self.model = model.to(device)
         self.objective = objective
@@ -71,18 +71,24 @@ class Step(StepBase):
         self.model.train()
         for epoch in range(epochs):
             with tqdm(total=len(data_loader)) as pbar:
-                for _, (users, items, ratings, preferences) in enumerate(data_loader):
-                    users = users.to(self.device)
-                    items = items.to(self.device)
-                    ratings = ratings.to(self.device)
-                    preferences = preferences.to(self.device)
+                for _, (features, preferences) in enumerate(data_loader):
+                    users = features[:, 0].to(self.device)
+                    items = features[:, 1].to(self.device)
+                    rtngs = features[:, 2].to(self.device)
+                    prefs = preferences.to(self.device)
 
-                    predictions = self.model(users, items)
-                    conf = self.conf_func(ratings)
-                    loss = (conf * self.objective(predictions, preferences)).mean()
+                    preds = self.model(users, items)
+                    confs = self.conf_func(rtngs)
+
+                    if hasattr(self.objective, 'weight'):
+                        self.objective.weight = confs
+
+                    loss = self.objective(preds, prefs).mean()
                     loss.backward()
+
                     self.optimizer.step()
                     self.optimizer.zero_grad()
+
                     pbar.update(1)
 
     def step(self, user: torch.tensor, item: torch.tensor,
@@ -92,13 +98,18 @@ class Step(StepBase):
 
         user = user.to(self.device)
         item = item.to(self.device)
-        rating = rating.to(self.device)
-        preference = preference.to(self.device)
+        rtng = rating.to(self.device)
+        pref = preference.to(self.device)
 
-        prediction = self.model(user, item)
-        conf = self.conf_func(rating)
-        loss = conf * self.objective(prediction, preference)
+        pred = self.model(user, item)
+        conf = self.conf_func(rtng)
+
+        if hasattr(self.objective, 'weight'):
+            self.objective.weight = conf
+
+        loss = self.objective(pred, pref)
         loss.backward()
+
         self.optimizer.step()
         self.optimizer.zero_grad()
 

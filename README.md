@@ -238,7 +238,7 @@ Following, let us initialize out model with a database connection. For everythin
 
 ```python
 # local
-net = SimpleCF(n_users, n_movies, factors=1024, mean=0., std=.1)
+net = SimpleCF(n_users, n_movies, factors=128, mean=0., std=.1)
 objective = lambda pred, targ: targ - pred
 optimizer = SGD(net.parameters(), lr=0.06)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -254,7 +254,7 @@ pct = int(data_df_cleaned.shape[0] * .2)
 bootstrapping_data = data_df_cleaned[:pct]
 ```
 
-Sub-classing the *Pytorch* Dataset class, we will create a dataset from our Dataframe. We extract four elements:
+We will create a dataset from our Dataframe. We extract four elements:
 
 * The user code
 * The movie code
@@ -262,44 +262,20 @@ Sub-classing the *Pytorch* Dataset class, we will create a dataset from our Data
 * The preference
 
 ```python
-# local
-class MovieLens(Dataset):
-    def __init__(self, df, transform=None):
-        self.df = df
-        self.transform = transform
-    
-    def __len__(self):
-        return len(self.df)
+features = ['user_code', 'movie_code', 'rating']
+target = ['preference']
 
-    def __getitem__(self, idx):
-        user = self.df['user_code'].iloc[idx]
-        item = self.df['movie_code'].iloc[idx]
-        rating = self.df['rating'].iloc[idx] 
-        preference = self.df['preference'].iloc[idx] 
-        return (user, item, rating, preference)
+data_set = TensorDataset(torch.tensor(bootstrapping_data[features].values), 
+                         torch.tensor(bootstrapping_data[target].values))
 ```
 
 Create the Pytorch Dataset and DataLoader that we will use. Batch size should always be `1` for online training.
 
 ```python
 # local
-data_set = MovieLens(bootstrapping_data)
+# data_set = MovieLens(bootstrapping_data)
 data_loader = DataLoader(data_set, batch_size=512, shuffle=False)
 ```
-
-```python
-u, i , _, _ = next(iter(data_loader))
-res = net(u.to(device), i.to(device))
-
-res.shape
-```
-
-
-
-
-    torch.Size([512, 1, 1])
-
-
 
 Let us now use the *batch_fit()* method of the *Step* trainer to bootstrap our model. 
 
@@ -308,7 +284,7 @@ Let us now use the *batch_fit()* method of the *Step* trainer to bootstrap our m
 model.batch_fit(data_loader)
 ```
 
-    100%|██████████| 89/89 [00:05<00:00, 16.99it/s]
+    100%|██████████| 89/89 [00:00<00:00, 131.18it/s]
 
 
 Then, to simulate streaming we get the remaining data and create a different data set.
@@ -320,7 +296,8 @@ data_df_step = data_df_step.reset_index(drop=True)
 data_df_step.head()
 
 # create the DataLoader
-stream_data_set = MovieLens(data_df_step)
+stream_data_set = TensorDataset(torch.tensor(data_df_step[features].values), 
+                                torch.tensor(data_df_step[target].values))
 stream_data_loader = DataLoader(stream_data_set, batch_size=1, shuffle=False)
 ```
 
@@ -333,8 +310,14 @@ recalls = []
 known_users = []
 
 with tqdm(total=len(stream_data_loader)) as pbar:
-    for idx, (user, item, rtng, pref) in enumerate(stream_data_loader):
+    for idx, (features, preferences) in enumerate(stream_data_loader):
         itr = idx + 1
+        
+        user = features[:, 0]
+        item = features[:, 1]
+        rtng = features[:, 2]
+        pref = preferences
+        
         if user.item() in known_users:
             predictions = model.predict(user, k)
             recall = recall_at_k(predictions.tolist(), item.tolist(), k)
@@ -347,7 +330,7 @@ with tqdm(total=len(stream_data_loader)) as pbar:
         pbar.update(1)
 ```
 
-    100%|██████████| 181048/181048 [1:00:25<00:00, 49.94it/s]
+    100%|██████████| 181048/181048 [13:00<00:00, 231.85it/s]
 
 
 Last but not least, we visualize the results of the recall@10 metric, using a moving average window of 5k elements. 
@@ -366,12 +349,12 @@ plt.plot(avgs)
 
 
 
-    [<matplotlib.lines.Line2D at 0x7f811f94a730>]
+    [<matplotlib.lines.Line2D at 0x7f1c6381cfd0>]
 
 
 
 
-![png](docs/images/output_28_1.png)
+![png](docs/images/output_27_1.png)
 
 
 Finally, save the model's weights.

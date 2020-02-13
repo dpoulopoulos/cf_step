@@ -102,7 +102,8 @@ summary: "*Incremental Collaborative Filtering* algorithms."
 <li>model (torch.nn.Module): The neural network architecture</li>
 <li>objective (Callable): The objective function</li>
 <li>optimizer (Callable): The method used to optimize the objective function. Usually a <code>torch.optim</code> loss function</li>
-<li>conf_func (Callable): A method that converts implicit ratings to confidence scores  </li>
+<li>conf_func (Callable): A method that converts implicit ratings to confidence scores</li>
+<li>device (str): Either <code>cpu</code> or <code>gpu</code></li>
 </ul>
 
 </div>
@@ -138,7 +139,7 @@ summary: "*Incremental Collaborative Filtering* algorithms."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Step.step" class="doc_header"><code>Step.step</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/step.py#L88" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Step.step</code>(<strong><code>user</code></strong>:<code>tensor</code>, <strong><code>item</code></strong>:<code>tensor</code>, <strong><code>rating</code></strong>:<code>tensor</code>=<em><code>None</code></em>, <strong><code>preference</code></strong>:<code>tensor</code>=<em><code>None</code></em>)</p>
+<h4 id="Step.step" class="doc_header"><code>Step.step</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/step.py#L94" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Step.step</code>(<strong><code>user</code></strong>:<code>tensor</code>, <strong><code>item</code></strong>:<code>tensor</code>, <strong><code>rating</code></strong>:<code>tensor</code>=<em><code>None</code></em>, <strong><code>preference</code></strong>:<code>tensor</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Trains the model incrementally.</p>
 
@@ -159,7 +160,7 @@ summary: "*Incremental Collaborative Filtering* algorithms."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Step.predict" class="doc_header"><code>Step.predict</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/step.py#L105" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Step.predict</code>(<strong><code>user</code></strong>:<code>tensor</code>, <strong><code>k</code></strong>:<code>int</code>=<em><code>10</code></em>)</p>
+<h4 id="Step.predict" class="doc_header"><code>Step.predict</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/step.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Step.predict</code>(<strong><code>user</code></strong>:<code>tensor</code>, <strong><code>k</code></strong>:<code>int</code>=<em><code>10</code></em>)</p>
 </blockquote>
 <p>Recommends the top-k items to a specific user.</p>
 
@@ -180,7 +181,7 @@ summary: "*Incremental Collaborative Filtering* algorithms."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Step.save" class="doc_header"><code>Step.save</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/step.py#L115" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Step.save</code>(<strong><code>path</code></strong>:<code>str</code>)</p>
+<h4 id="Step.save" class="doc_header"><code>Step.save</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/step.py#L126" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Step.save</code>(<strong><code>path</code></strong>:<code>str</code>)</p>
 </blockquote>
 <p>Saves the model parameters to the given path.</p>
 
@@ -201,7 +202,7 @@ summary: "*Incremental Collaborative Filtering* algorithms."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Step.load" class="doc_header"><code>Step.load</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/step.py#L119" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Step.load</code>(<strong><code>path</code></strong>:<code>str</code>)</p>
+<h4 id="Step.load" class="doc_header"><code>Step.load</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/step.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Step.load</code>(<strong><code>path</code></strong>:<code>str</code>)</p>
 </blockquote>
 <p>Loads the model parameters from a given path.</p>
 

@@ -10,6 +10,9 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
+      title: Losses
+      url: /losses
+    - output: web,pdf
       title: Metrics
       url: /metrics
     - output: web,pdf

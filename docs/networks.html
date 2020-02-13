@@ -96,6 +96,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <li>n_users (int): The number of unique users</li>
 <li>n_items (int): The number of unique items</li>
 <li>factors (int): The dimension of the embedding space</li>
+<li>user_embeddings (torch.tensor): Pre-trained weights for the user embedding matrix</li>
+<li>freeze_users (bool): <code>True</code> if we want to keep the user weights as is (i.e. non-trainable)</li>
+<li>item_embeddings (torch.tensor): Pre-trained weights for the item embedding matrix</li>
+<li>freeze_item (bool): <code>True</code> if we want to keep the item weights as is (i.e. non-trainable)</li>
 <li>init (torch.nn.init): The initialization method of the embedding matrices - default: torch.nn.init.normal_</li>
 </ul>
 
