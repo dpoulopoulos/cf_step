@@ -237,18 +237,6 @@ data_df_cleaned.head()
 Following, let us initialize out model with a database connection. For everything else (e.g. `learning rate`, `optimizer`, `loss function` etc.) we will use the defaults.
 
 ```python
-a = np.array([[1, 2, 3], [4, 5, 6]]); a[:, [0,2]]
-```
-
-
-
-
-    array([[1, 3],
-           [4, 6]])
-
-
-
-```python
 # local
 net = SimpleCF(n_users, n_movies, factors=128, mean=0., std=.1)
 objective = lambda pred, targ: targ - pred
@@ -274,6 +262,7 @@ We will create a dataset from our Dataframe. We extract four elements:
 * The preference
 
 ```python
+# local
 features = ['user_code', 'movie_code', 'rating']
 target = ['preference']
 
@@ -366,7 +355,7 @@ plt.plot(avgs)
 
 
 
-![png](docs/images/output_28_1.png)
+![png](docs/images/output_27_1.png)
 
 
 Finally, save the model's weights.
