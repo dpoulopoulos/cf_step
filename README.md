@@ -1,3 +1,5 @@
+![CI](https://github.com/dpoulopoulos/cf_step/workflows/CI/badge.svg?branch=master)
+
 # CF STEP - Incremental Collaborative Filtering
 > Incremental learning for recommender systems
 
