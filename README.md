@@ -1,5 +1,3 @@
-![CI](https://github.com/dpoulopoulos/cf_step/workflows/CI/badge.svg?branch=master)
-
 # CF STEP - Incremental Collaborative Filtering
 > Incremental learning for recommender systems
 
@@ -40,7 +38,6 @@ ratings_df.head()
 
 
 <div>
-
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
