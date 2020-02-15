@@ -1,10 +1,8 @@
-![CI](https://github.com/dpoulopoulos/cf_step/workflows/CI/badge.svg?branch=master)
-
 # CF STEP - Incremental Collaborative Filtering
 > Incremental learning for recommender systems
 
 
-CF STEP is an open-source library, written in python, that enables fast implementation of incremental learning recommender systems. The library is a by-product of the reasearch project [CloudDBAppliance](https://clouddb.eu/).
+CF STEP is an open-source library, written in python, that enables fast implementation of incremental learning recommender systems. The library is a by-product of the research project [CloudDBAppliance](https://clouddb.eu/).
 
 ## Install
 
@@ -210,7 +208,7 @@ data_df_cleaned.head()
 
 
 
-Following, let us initialize out model with a database connection. For everything else (e.g. `learning rate`, `optimizer`, `loss function` etc.) we will use the defaults.
+Following, let us initialize our model.
 
 ```python
 # local
@@ -222,7 +220,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = Step(net, objective, optimizer, device=device)
 ```
 
-Finally, let us get 1% of the data to fit the model for bootstrapping and create the Pytorch Dataset that we will use.
+Finally, let us get 20% of the data to fit the model for bootstrapping and create the Pytorch Dataset that we will use.
 
 ```python
 # local
@@ -261,7 +259,7 @@ Let us now use the *batch_fit()* method of the *Step* trainer to bootstrap our m
 model.batch_fit(data_loader)
 ```
 
-    100%|██████████| 89/89 [00:00<00:00, 131.18it/s]
+    100%|██████████| 89/89 [00:01<00:00, 63.79it/s]
 
 
 Then, to simulate streaming we get the remaining data and create a different data set.
@@ -307,7 +305,7 @@ with tqdm(total=len(stream_data_loader)) as pbar:
         pbar.update(1)
 ```
 
-    100%|██████████| 181048/181048 [13:00<00:00, 231.85it/s]
+    100%|██████████| 181048/181048 [13:03<00:00, 231.12it/s]
 
 
 Last but not least, we visualize the results of the recall@10 metric, using a moving average window of 5k elements. 
@@ -321,17 +319,11 @@ plt.xlabel('Iterations')
 plt.ylabel('Metric')
 plt.ylim(0., .1)
 plt.plot(avgs)
+plt.show()
 ```
 
 
-
-
-    [<matplotlib.lines.Line2D at 0x7f1c6381cfd0>]
-
-
-
-
-![png](docs/images/output_27_1.png)
+![png](docs/images/output_27_0.png)
 
 
 Finally, save the model's weights.
