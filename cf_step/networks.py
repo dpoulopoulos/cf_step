@@ -15,10 +15,12 @@ class SimpleCF(nn.Module):
                  item_embeddings: torch.tensor = None, freeze_items: bool = False,
                  init: torch.nn.init = torch.nn.init.normal_, **kwargs):
         super().__init__()
-        self.user_embeddings = self._create_embedding(n_users, factors, user_embeddings, freeze_users)
-        init(self.user_embeddings.weight.data, **kwargs)
-        self.item_embeddings = self._create_embedding(n_items, factors, item_embeddings, freeze_items)
-        init(self.item_embeddings.weight.data, **kwargs)
+        self.user_embeddings = self._create_embedding(n_users, factors,
+                                                      user_embeddings, freeze_users,
+                                                      init, **kwargs)
+        self.item_embeddings = self._create_embedding(n_items, factors,
+                                                      item_embeddings, freeze_items,
+                                                      init, **kwargs)
 
     def forward(self, u: torch.tensor, i: torch.tensor) -> torch.tensor:
         user_embedding = self.user_embeddings(u)
@@ -28,9 +30,9 @@ class SimpleCF(nn.Module):
         rating = torch.matmul(user_embedding, item_embedding.transpose(1, 2))
         return rating
 
-    def _create_embedding(self, n_items, factors,
-                          weights: torch.tensor = None, freeze: bool = False):
+    def _create_embedding(self, n_items, factors, weights, freeze, init, **kwargs):
         embedding = nn.Embedding(n_items, factors)
+        init(embedding.weight.data, **kwargs)
 
         if weights is not None:
             embedding.load_state_dict({'weight': weights})

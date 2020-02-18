@@ -270,11 +270,10 @@ data_set = TensorDataset(torch.tensor(bootstrapping_data[features].values),
                          torch.tensor(bootstrapping_data[target].values))
 ```
 
-Create the Pytorch Dataset and DataLoader that we will use. Batch size should always be `1` for online training.
+Create the Pytorch DataLoader that we will use. Batch size should always be `1` for online training.
 
 ```python
 # local
-# data_set = MovieLens(bootstrapping_data)
 data_loader = DataLoader(data_set, batch_size=512, shuffle=False)
 ```
 
