@@ -284,7 +284,7 @@ Let us now use the *batch_fit()* method of the *Step* trainer to bootstrap our m
 model.batch_fit(data_loader)
 ```
 
-    100%|██████████| 89/89 [00:01<00:00, 63.79it/s]
+    100%|██████████| 89/89 [00:01<00:00, 81.00it/s]
 
 
 Then, to simulate streaming we get the remaining data and create a different data set.
@@ -330,7 +330,7 @@ with tqdm(total=len(stream_data_loader)) as pbar:
         pbar.update(1)
 ```
 
-    100%|██████████| 181048/181048 [13:03<00:00, 231.12it/s]
+    100%|██████████| 181048/181048 [15:23<00:00, 195.94it/s]
 
 
 Last but not least, we visualize the results of the recall@10 metric, using a moving average window of 5k elements. 
