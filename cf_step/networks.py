@@ -13,14 +13,17 @@ class SimpleCF(nn.Module):
     def __init__(self, n_users: int, n_items: int, factors: int = 16,
                  user_embeddings: torch.tensor = None, freeze_users: bool = False,
                  item_embeddings: torch.tensor = None, freeze_items: bool = False,
-                 init: torch.nn.init = torch.nn.init.normal_, **kwargs):
+                 init: torch.nn.init = torch.nn.init.normal_, binary: bool =False, **kwargs):
         super().__init__()
+        self.binary = binary
+
         self.user_embeddings = self._create_embedding(n_users, factors,
                                                       user_embeddings, freeze_users,
                                                       init, **kwargs)
         self.item_embeddings = self._create_embedding(n_items, factors,
                                                       item_embeddings, freeze_items,
                                                       init, **kwargs)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, u: torch.tensor, i: torch.tensor) -> torch.tensor:
         user_embedding = self.user_embeddings(u)
@@ -28,6 +31,8 @@ class SimpleCF(nn.Module):
         item_embedding = self.item_embeddings(i)
         item_embedding = item_embedding[:, None, :]
         rating = torch.matmul(user_embedding, item_embedding.transpose(1, 2))
+        if self.binary:
+            return self.sigmoid(rating)
         return rating
 
     def _create_embedding(self, n_items, factors, weights, freeze, init, **kwargs):

@@ -6,6 +6,7 @@ keywords: fastai
 sidebar: home_sidebar
 
 summary: "Common neural network architectures for *Collaborative Filtering*."
+description: "Common neural network architectures for *Collaborative Filtering*."
 ---
 <!--
 
@@ -57,7 +58,7 @@ summary: "Common neural network architectures for *Collaborative Filtering*."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SimpleCF" class="doc_header"><code>class</code> <code>SimpleCF</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/networks.py#L12" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SimpleCF</code>(<strong><code>n_users</code></strong>:<code>int</code>, <strong><code>n_items</code></strong>:<code>int</code>, <strong><code>factors</code></strong>:<code>int</code>=<em><code>16</code></em>, <strong><code>user_embeddings</code></strong>:<code>tensor</code>=<em><code>None</code></em>, <strong><code>freeze_users</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>item_embeddings</code></strong>:<code>tensor</code>=<em><code>None</code></em>, <strong><code>freeze_items</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>init</code></strong>:<code>torch.nn.init</code>=<em><code>'normal_'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+<h2 id="SimpleCF" class="doc_header"><code>class</code> <code>SimpleCF</code><a href="https://github.com/dpoulopoulos/cf_step/tree/master/cf_step/networks.py#L12" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SimpleCF</code>(<strong><code>n_users</code></strong>:<code>int</code>, <strong><code>n_items</code></strong>:<code>int</code>, <strong><code>factors</code></strong>:<code>int</code>=<em><code>16</code></em>, <strong><code>user_embeddings</code></strong>:<code>tensor</code>=<em><code>None</code></em>, <strong><code>freeze_users</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>item_embeddings</code></strong>:<code>tensor</code>=<em><code>None</code></em>, <strong><code>freeze_items</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>init</code></strong>:<code>torch.nn.init</code>=<em><code>'normal_'</code></em>, <strong><code>binary</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -112,7 +113,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># initialize the model with 100 users, 50 items and a 16-dimensional embedding space</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">SimpleCF</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">std</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SimpleCF</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">std</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># predict the rating that user 3 would give to item 33</span>
 <span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">2</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">32</span><span class="p">]))</span>
@@ -130,7 +131,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor([[-0.0205]], grad_fn=&lt;MmBackward&gt;)</pre>
+<pre>tensor([[[0.5009]]], grad_fn=&lt;SigmoidBackward&gt;)</pre>
 </div>
 
 </div>
