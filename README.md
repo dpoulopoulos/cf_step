@@ -1,6 +1,7 @@
 # CF STEP - Incremental Collaborative Filtering
 > Incremental learning for recommender systems
 
+**This repository is no longer maintained, but is being kept around for educational purposes.**
 
 CF STEP is an open-source library, written in python, that enables fast implementation of incremental learning recommender systems. The library is a by-product of the research project [CloudDBAppliance](https://clouddb.eu/).
 
